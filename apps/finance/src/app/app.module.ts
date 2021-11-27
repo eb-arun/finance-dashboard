@@ -13,9 +13,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { PopupAddMemberComponent } from './dashboard/popup-add-member/popup-add-member.component';
+import { ViewAllInvestorsComponent } from './dashboard/view-all-investors/view-all-investors.component';
+import { PopupAddInvestorComponent } from './dashboard/popup-add-investor/popup-add-investor.component';
+import { PopupMemberProfileComponent } from './dashboard/popup-member-profile/popup-member-profile.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,

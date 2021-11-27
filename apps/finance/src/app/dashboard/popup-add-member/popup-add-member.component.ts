@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 
 @Component({
@@ -12,7 +13,7 @@ export class PopupAddMemberComponent implements OnInit {
   errorInvalid:string = "Field is required";
   showRef:boolean= false;
 
-  constructor(private formBuilder:FormBuilder) { }
+  constructor(private formBuilder:FormBuilder, private dialogRef:MatDialogRef<PopupAddMemberComponent>) { }
 
   ngOnInit(): void {
     this.addFormGroup = this.formBuilder.group({
@@ -42,6 +43,10 @@ export class PopupAddMemberComponent implements OnInit {
   showReference(data: any) {
 console.log(data);
 this.showRef =data.checked; 
+}
+
+closePop() {
+this.dialogRef.close();
 }
 
 

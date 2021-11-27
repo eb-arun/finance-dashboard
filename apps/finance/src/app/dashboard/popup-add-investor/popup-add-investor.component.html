@@ -1,0 +1,72 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="fill-remaining-space">Add Investor</span>
+    <span style="cursor: pointer;" (click)="closePop()">X</span>
+  </mat-toolbar>
+
+  <div>
+    <form [formGroup]="addInFormGroup" class="form">
+        <div class="form-wrapper">
+            <p>
+                <mat-form-field appearance="outline">
+                  <mat-label>Name</mat-label>
+                  <input
+                    formControlName="name"
+                    matInput
+                    placeholder="enter name of the Investor"
+                  />
+                  <mat-error
+                    *ngIf="
+                      !addInFormGroup.controls['name'].valid &&
+                      addInFormGroup.controls['name'].touched
+                    "
+                  >
+                    {{ errorInvalid }}
+                  </mat-error>
+                </mat-form-field>
+              </p>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input
+          formControlName="date-selection"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="
+            !addInFormGroup.controls['date-selection'].valid
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+        </mat-form-field>
+      </p>
+      
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Amount</mat-label>
+          <input
+            formControlName="amount"
+            matInput
+            placeholder="invested amount"
+          />
+          <mat-error
+            *ngIf="
+              !addInFormGroup.controls['amount'].valid &&
+              addInFormGroup.controls['amount'].touched
+            "
+          >
+            {{ errorInvalid }}
+          </mat-error>
+        </mat-form-field>
+      </p>
+        </div>
+        <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
+            <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="closePop()">Cancel</button>
+            <button mat-raised-button color="primary">Add</button>
+        </p>
+    </form>
+  </div>
+  

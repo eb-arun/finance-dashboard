@@ -1,5 +1,6 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
   <span class="fill-remaining-space">Add Finance Member</span>
+  <span style="cursor: pointer;" (click)="closePop()">X</span>
 </mat-toolbar>
 <div>
   <form [formGroup]="addFormGroup" class="form">
@@ -202,7 +203,7 @@
       </mat-form-field>
     </p>
 
-    <section fxLayout="row" fxLayoutAlign="space-around center">
+    <section  style="margin-bottom: 15px;" fxLayout="row" fxLayoutAlign="space-around center">
         <span class="checkbox-label">Vehicle Details</span>
       <mat-checkbox color="warn" class="example-margin" formControlName="rc"
         >RC</mat-checkbox
@@ -303,7 +304,10 @@
             </mat-form-field>
           </p>
         </div>
-        <p><button mat-raised-button color="primary">Add</button></p>
+        <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
+            <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="closePop()">Cancel</button>
+            <button mat-raised-button color="primary">Add</button>
+        </p>
   </form>
 </div>
 

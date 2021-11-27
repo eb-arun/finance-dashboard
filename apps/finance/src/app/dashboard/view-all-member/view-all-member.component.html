@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
+<div fxLayout="row" fxLayout.lt-sm="column" ngStyle.lt-sm="margin-bottom:15px" fxLayoutAlign="space-between center" >
     <mat-form-field appearance="standard">
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="name, phone number, date" #input>
