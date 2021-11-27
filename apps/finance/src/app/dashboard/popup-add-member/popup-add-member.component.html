@@ -1,0 +1,310 @@
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space">Add Finance Member</span>
+</mat-toolbar>
+<div>
+  <form [formGroup]="addFormGroup" class="form">
+      <div class="form-wrapper">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>File Number</mat-label>
+        <input
+          formControlName="file-number"
+          matInput
+          placeholder="enter a file number"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['file-number'].valid &&
+            addFormGroup.controls['file-number'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input
+          formControlName="name"
+          matInput
+          placeholder="enter a member name"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['name'].valid &&
+            addFormGroup.controls['name'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Father Name</mat-label>
+        <input
+          formControlName="fname"
+          matInput
+          placeholder="enter member's father name"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['fname'].valid &&
+            addFormGroup.controls['fname'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+     <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Town</mat-label>
+        <input formControlName="town" matInput placeholder="enter town name" />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['town'].valid &&
+            addFormGroup.controls['town'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input
+          formControlName="city"
+          matInput
+          placeholder="enter city/taluka name"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['city'].valid &&
+            addFormGroup.controls['city'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>District</mat-label>
+        <input
+          formControlName="district"
+          matInput
+          placeholder="enter district name"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['district'].valid &&
+            addFormGroup.controls['district'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Month Duration</mat-label>
+        <input
+          formControlName="month-duration"
+          matInput
+          placeholder="enter duration in month"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['month-duration'].valid &&
+            addFormGroup.controls['month-duration'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Vehicle Number</mat-label>
+        <input
+          formControlName="vehicle"
+          matInput
+          placeholder="enter vehicle rc number"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['vehicle'].valid &&
+            addFormGroup.controls['vehicle'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input
+          formControlName="mobile"
+          matInput
+          placeholder="enter 10 digit mobile number"
+        />
+        <mat-hint>primary contact number</mat-hint>
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['mobile'].valid &&
+            addFormGroup.controls['mobile'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Secondary Mobile Number</mat-label>
+        <input
+          formControlName="mobile-2"
+          matInput
+          placeholder="enter 10 digit mobile number"
+        />
+        <mat-hint>secondary contact number</mat-hint>
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['mobile-2'].valid &&
+            addFormGroup.controls['mobile-2'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Vehicle Model</mat-label>
+        <input
+          formControlName="vehicle-model"
+          matInput
+          placeholder="ex - yamaha r15"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['vehicle-model'].valid &&
+            addFormGroup.controls['vehicle-model'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <section fxLayout="row" fxLayoutAlign="space-around center">
+        <span class="checkbox-label">Vehicle Details</span>
+      <mat-checkbox color="warn" class="example-margin" formControlName="rc"
+        >RC</mat-checkbox
+      >
+      <mat-checkbox color="warn" class="example-margin" formControlName="insurance"
+        >Insurance</mat-checkbox
+      >
+      <mat-checkbox color="warn" class="example-margin" formControlName="key"
+        >key</mat-checkbox
+      >
+    </section>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Total Amount Given</mat-label>
+        <input
+          formControlName="total-amount"
+          matInput
+          placeholder="enter total amount"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['total-amount'].valid &&
+            addFormGroup.controls['total-amount'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Duration</mat-label>
+        <input
+          formControlName="duration"
+          matInput
+          placeholder="enter duration"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['duration'].valid &&
+            addFormGroup.controls['duration'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Reference Amount</mat-label>
+        <input
+          formControlName="ref-amount"
+          matInput
+          placeholder="enter reference amount"
+        />
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['ref-amount'].valid &&
+            addFormGroup.controls['ref-amount'].touched
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Date Selection</mat-label>
+        <input
+          formControlName="date-selection"
+          matInput
+          [matDatepicker]="picker"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error
+          *ngIf="
+            !addFormGroup.controls['date-selection'].valid
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error>
+      </mat-form-field>
+    </p>
+        <section fxLayout="row">
+            <mat-checkbox (change)="showReference($event)" color="warn" class="example-margin" formControlName="reference-by"
+              >Reference if any</mat-checkbox
+            >
+          </section>
+          <p *ngIf="showRef">
+            <mat-form-field appearance="outline">
+              <mat-label>Reference Name</mat-label>
+              <input
+                formControlName="ref-name"
+                matInput
+                placeholder="enter reference name"
+              />
+            </mat-form-field>
+          </p>
+        </div>
+        <p><button mat-raised-button color="primary">Add</button></p>
+  </form>
+</div>
+
+
