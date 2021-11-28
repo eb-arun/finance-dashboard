@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="fill-remaining-space">Member's Profile</span>
+    <span style="cursor: pointer;" (click)="closePop()">X</span>
+  </mat-toolbar>
+<mat-tab-group>
+    <mat-tab label="Personal Information">
+        <finance-dashboard-member-personal-info class="wrapper"></finance-dashboard-member-personal-info>
+    </mat-tab>
+    <mat-tab label="Financial Information">
+        <finance-dashboard-member-financial-info class="wrapper"></finance-dashboard-member-financial-info>
+    </mat-tab>
+  </mat-tab-group>

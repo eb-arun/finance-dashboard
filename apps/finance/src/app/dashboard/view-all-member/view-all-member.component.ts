@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PopupAddMemberComponent } from '../popup-add-member/popup-add-member.component';
+import { PopupMemberProfileComponent } from '../popup-member-profile/popup-member-profile.component';
 
 export interface PeriodicElement {
   name: string;
@@ -62,6 +63,18 @@ export class ViewAllMemberComponent implements OnInit {
     const dialogRef = this.dialog.open(PopupAddMemberComponent, {
       height: '630px' ,
       width:'450px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openProfile(member: any) {
+    const dialogRef = this.dialog.open(PopupMemberProfileComponent, {
+      height: '630px' ,
+      width:'450px',
+      data: member
     });
 
     dialogRef.afterClosed().subscribe(result => {

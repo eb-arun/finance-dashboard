@@ -16,9 +16,11 @@ import { PopupAddMemberComponent } from './dashboard/popup-add-member/popup-add-
 import { ViewAllInvestorsComponent } from './dashboard/view-all-investors/view-all-investors.component';
 import { PopupAddInvestorComponent } from './dashboard/popup-add-investor/popup-add-investor.component';
 import { PopupMemberProfileComponent } from './dashboard/popup-member-profile/popup-member-profile.component';
+import { MemberPersonalInfoComponent } from './dashboard/member-personal-info/member-personal-info.component';
+import { MemberFinancialInfoComponent } from './dashboard/member-financial-info/member-financial-info.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,
