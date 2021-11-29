@@ -18,6 +18,10 @@ import { PopupAddInvestorComponent } from './dashboard/popup-add-investor/popup-
 import { PopupMemberProfileComponent } from './dashboard/popup-member-profile/popup-member-profile.component';
 import { MemberPersonalInfoComponent } from './dashboard/member-personal-info/member-personal-info.component';
 import { MemberFinancialInfoComponent } from './dashboard/member-financial-info/member-financial-info.component';
+import { environment } from '../environments/environment';
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent],
@@ -29,9 +33,16 @@ import { MemberFinancialInfoComponent } from './dashboard/member-financial-info/
     FlexLayoutModule,
     HttpClientModule, 
     AppRoutingModule, 
-    UiModule
+    UiModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebaseConfig)
     ],
   providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+function yourFirebaseConfig(yourFirebaseConfig: any): any[] | import("@angular/core").Type<any> | import("@angular/core").ModuleWithProviders<{}> {
+  throw new Error('Function not implemented.');
+}
+

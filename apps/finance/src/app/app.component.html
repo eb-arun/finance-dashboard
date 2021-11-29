@@ -1,4 +1,7 @@
-<header>
-  Finance Dashboard
+<header fxLayout="row" fxLayoutAlign="space-between center">
+  <div>Finance Dashboard</div>
+  <div>
+    <button *ngIf="showLogout" mat-raised-button color="warn" (click)="logout()">Logout</button>
+  </div>
 </header>
 <router-outlet></router-outlet>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataServiceService } from '../services/data-service.service';
 
 @Component({
   selector: 'finance-dashboard-dashboard',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService:DataServiceService) { }
 
   ngOnInit(): void {
+    console.log('dashboard' ,this.dataService.userName.value)
   }
 
 }
