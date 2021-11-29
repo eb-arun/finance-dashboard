@@ -4,7 +4,7 @@
 </mat-toolbar>
 <div>
   <form [formGroup]="addFormGroup" class="form">
-      <div class="form-wrapper">
+      <div class="form-wrapper" ngClass.gt-sm="col-3">
     <p>
       <mat-form-field appearance="outline">
         <mat-label>File Number</mat-label>
@@ -204,7 +204,7 @@
     </p>
 
     <section  style="margin-bottom: 15px;" fxLayout="row" fxLayoutAlign="space-around center">
-        <span class="checkbox-label">Vehicle Details</span>
+        <span class="checkbox-label">Vehicle - </span>
       <mat-checkbox color="warn" class="example-margin" formControlName="rc"
         >RC</mat-checkbox
       >
@@ -253,16 +253,16 @@
     </p>
     <p>
       <mat-form-field appearance="outline">
-        <mat-label>Reference Amount</mat-label>
+        <mat-label>Document Charges</mat-label>
         <input
-          formControlName="ref-amount"
+          formControlName="doc-charge"
           matInput
-          placeholder="enter reference amount"
+          placeholder="enter document charges"
         />
         <mat-error
           *ngIf="
-            !addFormGroup.controls['ref-amount'].valid &&
-            addFormGroup.controls['ref-amount'].touched
+            !addFormGroup.controls['doc-charge'].valid &&
+            addFormGroup.controls['doc-charge'].touched
           "
         >
           {{ errorInvalid }}
@@ -303,10 +303,30 @@
               />
             </mat-form-field>
           </p>
+          <p *ngIf="showRef">
+            <mat-form-field appearance="outline">
+              <mat-label>Reference Mobile</mat-label>
+              <input
+                formControlName="ref-mobile"
+                matInput
+                placeholder="enter reference mobile number"
+              />
+            </mat-form-field>
+          </p>
+          <p *ngIf="showRef">
+            <mat-form-field appearance="outline">
+              <mat-label>Reference Amount</mat-label>
+              <input
+                formControlName="ref-amount"
+                matInput
+                placeholder="enter reference amount"
+              />
+            </mat-form-field>
+          </p>
         </div>
         <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
             <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="closePop()">Cancel</button>
-            <button mat-raised-button color="primary">Add</button>
+            <button mat-raised-button color="primary" (click)="addMember(addFormGroup)">Add</button>
         </p>
   </form>
 </div>

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DataServiceService } from '../../services/data-service.service';
 import { PopupAddMemberComponent } from '../popup-add-member/popup-add-member.component';
 import { PopupMemberProfileComponent } from '../popup-member-profile/popup-member-profile.component';
 
@@ -33,7 +35,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ViewAllMemberComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -45,9 +47,10 @@ export class ViewAllMemberComponent implements OnInit {
     end: new FormControl(),
   });
   
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private service:DataServiceService, private afs:AngularFirestore) { }
 
   ngOnInit(): void {
+    this.listAllMember();
   }
 
   applyFilter(event: Event) {
@@ -61,8 +64,8 @@ export class ViewAllMemberComponent implements OnInit {
 
   addMemberPopup() {
     const dialogRef = this.dialog.open(PopupAddMemberComponent, {
-      height: '630px' ,
-      width:'450px'
+      height: '90%' ,
+      width:'750px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -80,6 +83,13 @@ export class ViewAllMemberComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  listAllMember() {
+    this.afs.collection('members').valueChanges().subscribe(res=>{
+      this.dataSource.data = res;
+      console.log('all mem',this.dataSource.data);
+    })
   }
 
   ngAfterViewInit() {

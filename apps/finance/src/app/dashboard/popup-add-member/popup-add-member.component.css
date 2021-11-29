@@ -1,7 +1,7 @@
 .form-wrapper {
     height: 460px;
     overflow: auto;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 15px;
 }
 
@@ -10,4 +10,7 @@ mat-form-field{
 }
 .checkbox-label{
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.col-3 {
+    column-count: 3;
 }
