@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card style="border: 2px solid #673ab7;">
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
     <form class="example-form">
@@ -8,8 +8,9 @@
           <input
             type="text"
             matInput
-            placeholder="Username"
+            placeholder="Enter your Username"
             [formControl]="username"
+            (keyup.enter)="authLogin()"
           />
           <mat-error *ngIf="username.hasError('required')">
             username is <strong>required</strong>
@@ -20,24 +21,38 @@
       <p>
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input
-            type="password"
-            matInput
-            placeholder="Password"
+          <input matInput [type]="hide ? 'password' : 'text'"
+            placeholder="Enter your password"
             [formControl]="password"
+            (keyup.enter)="authLogin()"
           />
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error *ngIf="password.hasError('required')">
             password is <strong>required</strong>
           </mat-error>
         </mat-form-field>
       </p>
 
+      <!-- <p>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            type="password"
+            matInput
+            
+          />
+          
+        </mat-form-field>
+      </p> -->
+
       <p *ngIf="error" class="error">
         {{ error }}
       </p>
 
       <div class="button">
-        <button type="button" (click)="authLogin()" mat-button>Login</button>
+        <button type="button" color="primary" (click)="authLogin()" mat-raised-button>Login</button>
       </div>
     </form>
   </mat-card-content>

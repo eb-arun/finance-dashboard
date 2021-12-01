@@ -7,26 +7,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataServiceService } from '../../services/data-service.service';
 import { PopupAddMemberComponent } from '../popup-add-member/popup-add-member.component';
+import { PopupDeleteMemberComponent } from '../popup-delete-member/popup-delete-member.component';
 import { PopupMemberProfileComponent } from '../popup-member-profile/popup-member-profile.component';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
 @Component({
   selector: 'finance-dashboard-view-all-member',
@@ -34,7 +16,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./view-all-member.component.css']
 })
 export class ViewAllMemberComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'month-duration', 'action'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator)
@@ -92,9 +74,40 @@ export class ViewAllMemberComponent implements OnInit {
     })
   }
 
+  updateMember(member:any, event:Event) {
+    console.log('update', member);
+    const dialogRef = this.dialog.open(PopupAddMemberComponent, {
+      height: '90%' ,
+      width:'750px',
+      data: member
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+    event.stopPropagation();
+  }
+
+  deleteMember(fileId:any, event:Event) {
+    const dialogRef = this.dialog.open(PopupDeleteMemberComponent, {
+      height: 'auto' ,
+      width:'550px',
+      data: fileId
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
+
+
+    event.stopPropagation();
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  
 }

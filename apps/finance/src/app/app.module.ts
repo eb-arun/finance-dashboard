@@ -22,9 +22,10 @@ import { environment } from '../environments/environment';
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { PopupDeleteMemberComponent } from './dashboard/popup-delete-member/popup-delete-member.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent, PopupDeleteMemberComponent],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,

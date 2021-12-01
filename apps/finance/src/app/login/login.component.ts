@@ -11,7 +11,7 @@ import { DataServiceService } from '../services/data-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+    hide = true;
     username= new FormControl('', [Validators.required])
     password = new FormControl('', [Validators.required])
     fires:Subscription | undefined;
