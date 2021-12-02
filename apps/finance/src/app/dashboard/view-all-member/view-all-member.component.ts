@@ -44,21 +44,24 @@ export class ViewAllMemberComponent implements OnInit {
     }
   }
 
-  addMemberPopup() {
+  addMemberPopup(member:any, request:any, event:Event) {
     const dialogRef = this.dialog.open(PopupAddMemberComponent, {
       height: '90%' ,
-      width:'750px'
+      width:'750px',
+      data: {member:member, request:request}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+
+    event.stopPropagation();
   }
 
   openProfile(member: any) {
     const dialogRef = this.dialog.open(PopupMemberProfileComponent, {
-      height: '630px' ,
-      width:'450px',
+      height: '90vh' ,
+      width:'750px',
       data: member
     });
 
@@ -74,20 +77,20 @@ export class ViewAllMemberComponent implements OnInit {
     })
   }
 
-  updateMember(member:any, event:Event) {
-    console.log('update', member);
-    const dialogRef = this.dialog.open(PopupAddMemberComponent, {
-      height: '90%' ,
-      width:'750px',
-      data: member
-    });
+  // updateMember(member:any, event:Event) {
+  //   console.log('update', member);
+  //   const dialogRef = this.dialog.open(PopupAddMemberComponent, {
+  //     height: '90%' ,
+  //     width:'750px',
+  //     data: member
+  //   });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log(`Dialog result: ${result}`);
+  //   });
 
-    event.stopPropagation();
-  }
+    
+  // }
 
   deleteMember(fileId:any, event:Event) {
     const dialogRef = this.dialog.open(PopupDeleteMemberComponent, {

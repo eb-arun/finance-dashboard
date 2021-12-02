@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Statement } from '@angular/compiler';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -28,9 +29,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./member-financial-info.component.scss']
 })
 export class MemberFinancialInfoComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
+  @Input() finInfo:any;
+  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid'];
+  dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -38,6 +39,9 @@ export class MemberFinancialInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.dataSource.data = this.finInfo['fin-statement'];
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
   
   ngAfterViewInit() {

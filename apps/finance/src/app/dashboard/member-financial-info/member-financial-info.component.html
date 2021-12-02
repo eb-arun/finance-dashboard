@@ -1,24 +1,42 @@
+<div class="profile-title-wrap" fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <p>Total Amount</p>
+    <p>{{finInfo.totalAmount || 0}}</p>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <p> Document Charges</p>
+    <p>{{finInfo['doc-charge'] || 0}}</p>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <p>Reference Amount</p>
+    <p>{{finInfo['ref-amount'] || 0}}</p>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <p>Total EMI</p>
+    <p>{{finInfo.emiPerMonth || 0}}</p>
+  </div>
+</div>
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
   
-      <ng-container matColumnDef="position">
+      <ng-container matColumnDef="sno">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
-        <td mat-cell *matCellDef="let row"> {{row.position}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.sno}} </td>
       </ng-container>
   
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      <ng-container matColumnDef="monthly-emi">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> EMI </th>
+        <td mat-cell *matCellDef="let row"> {{row['monthly-emi']}} </td>
       </ng-container>
   
-      <ng-container matColumnDef="weight">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Weight </th>
-        <td mat-cell *matCellDef="let row"> {{row.weight}} </td>
+      <ng-container matColumnDef="due-date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
+        <td mat-cell *matCellDef="let row"> {{row['due-date'].toDate() | date}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="symbol">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Symbol </th>
-        <td mat-cell *matCellDef="let row"> {{row.symbol}} </td>
+      <ng-container matColumnDef="paid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status/Paid </th>
+        <td mat-cell *matCellDef="let row"> {{row.paid}} </td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

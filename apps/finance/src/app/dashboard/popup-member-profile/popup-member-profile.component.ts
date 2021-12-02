@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'finance-dashboard-popup-member-profile',
@@ -7,8 +7,9 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./popup-member-profile.component.scss']
 })
 export class PopupMemberProfileComponent implements OnInit {
-
-  constructor(private dialogRef:MatDialogRef<PopupMemberProfileComponent>) { }
+  constructor(private dialogRef:MatDialogRef<PopupMemberProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log('profile', this.data);
+   }
 
   ngOnInit(): void {
   }

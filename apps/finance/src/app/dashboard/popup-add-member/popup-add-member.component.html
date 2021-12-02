@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
-  <span class="fill-remaining-space">Add Finance Member</span>
+  <span class="fill-remaining-space" style="text-transform: capitalize;">{{data.request}} Finance Member</span>
   <span style="cursor: pointer;" (click)="closePop()">X</span>
 </mat-toolbar>
 <div>
@@ -289,7 +289,7 @@
       </mat-form-field>
     </p>
         <section fxLayout="row">
-            <mat-checkbox (change)="showReference($event)" color="warn" class="example-margin" formControlName="reference-by"
+            <mat-checkbox (change)="showReference($event.checked)" color="warn" class="example-margin" formControlName="reference-by"
               >Reference if any</mat-checkbox
             >
           </section>
@@ -326,7 +326,7 @@
         </div>
         <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
             <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="closePop()">Cancel</button>
-            <button mat-raised-button color="primary" (click)="addMember(addFormGroup)">Add</button>
+            <button mat-raised-button color="primary" (click)="addMember(addFormGroup.getRawValue(), addFormGroup.status)" style="text-transform: capitalize;">{{data.request}}</button>
         </p>
   </form>
 </div>

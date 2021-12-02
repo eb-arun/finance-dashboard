@@ -14,48 +14,79 @@ export class PopupAddMemberComponent implements OnInit {
   errorInvalid:string = "Field is required";
   showRef:boolean= false;
   propDisable:boolean = true;
-  constructor(private formBuilder:FormBuilder, private dialogRef:MatDialogRef<PopupAddMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private service:DataServiceService) { }
+  constructor(private formBuilder:FormBuilder, private dialogRef:MatDialogRef<PopupAddMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private service:DataServiceService) {
+    console.log(this.data);
+   }
 
-  ngOnInit(): void {
-    this.addFormGroup = this.formBuilder.group({
-      'file-number': [null, [Validators.required]],
-      'name':[null, [Validators.required]],
-      'fname':[null, [Validators.required]],
-      'town':[null, [Validators.required]],
-      'city':[null, [Validators.required]],
-      'district':[null, [Validators.required]],
-      'month-duration':[null, [Validators.required]],
-      'doc-charge':[null, [Validators.required]],
-      'vehicle':[null, [Validators.required]],
-      'mobile':[null, [Validators.required]],
-      'mobile-2':[null, [Validators.required]],
-      'vehicle-model':[null, [Validators.required]],
-      'rc':[null, []],
-      'insurance':[null, []],
-      'key':[null, []],
-      'total-amount':[null, [Validators.required]],
-      'duration':[null, [Validators.required]],
-      'date-selection':[null, [Validators.required]],
-      'reference-by':[null, []],
-      'ref-name': [null, []],
-      'ref-mobile': [null, []],
-      'ref-amount':[null, []]  
-    });
+  ngOnInit(): void { 
+    if(this.data.request == 'add') {
+      this.addFormGroup = this.formBuilder.group({
+        'file-number': [null, [Validators.required]],
+        'name':[null, [Validators.required]],
+        'fname':[null, [Validators.required]],
+        'town':[null, [Validators.required]],
+        'city':[null, [Validators.required]],
+        'district':[null, [Validators.required]],
+        'month-duration':[null, [Validators.required]],
+        'doc-charge':[null, [Validators.required]],
+        'vehicle':[null, [Validators.required]],
+        'mobile':[null, [Validators.required]],
+        'mobile-2':[null, [Validators.required]],
+        'vehicle-model':[null, [Validators.required]],
+        'rc':[null, []],
+        'insurance':[null, []],
+        'key':[null, []],
+        'total-amount':[null, [Validators.required]],
+        'duration':[null, [Validators.required]],
+        'date-selection':[null, [Validators.required]],
+        'reference-by':[null, []],
+        'ref-name': [null, []],
+        'ref-mobile': [null, []],
+        'ref-amount':[null, []]  
+      });
+
+    } else if(this.data.request == 'update') {
+      this.addFormGroup = this.formBuilder.group({
+        'file-number': [this.data.member['file-number'], [Validators.required]],
+        'name':[this.data.member['name'], [Validators.required]],
+        'fname':[this.data.member['fname'], [Validators.required]],
+        'town':[this.data.member['town'], [Validators.required]],
+        'city':[this.data.member['city'], [Validators.required]],
+        'district':[this.data.member['district'], [Validators.required]],
+        'month-duration':[this.data.member['month-duration'], [Validators.required]],
+        'doc-charge':[this.data.member['doc-charge'], [Validators.required]],
+        'vehicle':[this.data.member['vehicle'], [Validators.required]],
+        'mobile':[this.data.member['mobile'], [Validators.required]],
+        'mobile-2':[this.data.member['mobile-2'], [Validators.required]],
+        'vehicle-model':[this.data.member['vehicle-model'], [Validators.required]],
+        'rc':[this.data.member['rc'], []],
+        'insurance':[this.data.member['insurance'], []],
+        'key':[this.data.member['key'], []],
+        'total-amount':[this.data.member['total-amount'], [Validators.required]],
+        'duration':[this.data.member['duration'], [Validators.required]],
+        'date-selection':[this.data.member['date-selection'].toDate(), [Validators.required]],
+        'reference-by':[this.data.member['reference-by'], []],
+        'ref-name': [this.data.member['ref-name'], []],
+        'ref-mobile': [this.data.member['ref-mobile'], []],
+        'ref-amount':[this.data.member['ref-amount'], []]  
+      });
+      this.addFormGroup.controls['file-number'].disable();
+      this.showReference(this.data.member['reference-by']);
+    }
 
   }
-  showReference(data: any) {
-console.log(data);
-this.showRef =data.checked; 
+showReference(data: any) {
+  this.showRef =data; 
 }
 
 closePop() {
-this.dialogRef.close();
+  this.dialogRef.close();
 }
 
-addMember(inputs:any) {
+addMember(inputs:any, status:any) {
   console.log('add form data', inputs);
-  if(inputs.status == "VALID") {
-    this.financeCalcluation(inputs.value, inputs.value['total-amount'], inputs.value['doc-charge'], inputs.value['ref-amount'], inputs.value['duration']);
+  if(status == "VALID") {
+    this.financeCalcluation(inputs, inputs['total-amount'], inputs['doc-charge'], inputs['ref-amount'], inputs['duration']);
   }
 
 }
@@ -93,12 +124,24 @@ durationStatement(all:any) {
   }
   console.log('emi state', statement);
   all['fin-statement'] = statement;
-  this.addMemberDB(all);
+  this.doneBy(all);
+}
+
+doneBy(formInputs:any) {
+  if(this.data.request == 'add') {
+    formInputs['created']= new Date();
+    formInputs['created-by'] = this.service.userName.value;
+  } else if(this.data.request == 'update') {
+    formInputs['created']= this.data.member['created'];
+    formInputs['created-by'] = this.data.member['created-by'];
+    formInputs['updated']= new Date();
+    formInputs['updated-by'] = this.service.userName.value;
+  }
+  this.addMemberDB(formInputs);
 }
 
 addMemberDB(formInputs:any) {
-  formInputs['created']= new Date();
-  formInputs['creadted-by'] = this.service.userName.value;
+  
   this.service.addMember(formInputs['file-number'], formInputs);
   console.log('final add values', formInputs);
   this.closePop();

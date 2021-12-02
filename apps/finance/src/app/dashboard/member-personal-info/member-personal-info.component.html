@@ -1,5 +1,17 @@
+
+<div fxLayout="row-reverse" fxLayout.lt-sm="column" fxLayoutAlign="space-between start">
+  <mat-card style="margin-right: 20px;">
+    <svg height="100" width="100">
+      <circle cx="50" cy="50" r="40" stroke="#673ab7" stroke-width="4" fill="#e6e4eb" />
+        <text x="30" y="60" font-size="2em" fill="#bf2154">{{userInfo.name.slice(0,2).toUpperCase()}}</text>
+      </svg>
+  </mat-card>
 <mat-list role="list">
-    <mat-list-item role="listitem">Name: Raja</mat-list-item>
-    <mat-list-item role="listitem">DOB: 11/12/1989</mat-list-item>
-    <mat-list-item role="listitem">Mobile: 852587415</mat-list-item>
+    <mat-list-item role="listitem"><strong>Name: </strong> {{userInfo.name}}</mat-list-item>
+    <mat-list-item role="listitem"><strong>Father Name: </strong> {{userInfo.fname}}</mat-list-item>
+    <mat-list-item role="listitem"><strong>Mobile: </strong> {{userInfo.mobile}}, {{userInfo.mobile-2}}</mat-list-item>
+    <mat-list-item role="listitem"><strong>Address: </strong> {{userInfo.town}}, {{userInfo.city}}, {{userInfo.district}}</mat-list-item>
   </mat-list>
+
+</div>
+

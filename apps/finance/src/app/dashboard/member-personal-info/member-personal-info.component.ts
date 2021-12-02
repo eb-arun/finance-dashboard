@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'finance-dashboard-member-personal-info',
@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./member-personal-info.component.scss']
 })
 export class MemberPersonalInfoComponent implements OnInit {
-
+  @Input() userInfo:any;
   constructor() { }
 
   ngOnInit(): void {
+    console.log('@input', this.userInfo);
   }
 
 }

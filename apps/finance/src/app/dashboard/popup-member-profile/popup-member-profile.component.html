@@ -4,9 +4,9 @@
   </mat-toolbar>
 <mat-tab-group>
     <mat-tab label="Personal Information">
-        <finance-dashboard-member-personal-info class="wrapper"></finance-dashboard-member-personal-info>
+        <finance-dashboard-member-personal-info class="wrapper" [userInfo]="data"></finance-dashboard-member-personal-info>
     </mat-tab>
     <mat-tab label="Financial Information">
-        <finance-dashboard-member-financial-info class="wrapper"></finance-dashboard-member-financial-info>
+        <finance-dashboard-member-financial-info class="wrapper" [finInfo]="data"></finance-dashboard-member-financial-info>
     </mat-tab>
   </mat-tab-group>

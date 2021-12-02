@@ -15,7 +15,7 @@
         <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
         <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
       </mat-form-field>
-      <button mat-raised-button color="primary" (click)="addMemberPopup()">Add Finance Member</button>
+      <button mat-raised-button color="primary" (click)="addMemberPopup('', 'add', $event)">Add Finance Member</button>
 </div>
 
   
@@ -57,7 +57,7 @@
         <td mat-cell *matCellDef="let row">
           <div fxLayout="row" fxLayoutGap="4px">
             <div class="example-button-container">
-              <button mat-mini-fab color="primary" (click)="updateMember(row, $event)">
+              <button mat-mini-fab color="primary" (click)="addMemberPopup(row, 'update', $event)">
                 <mat-icon>update</mat-icon>
               </button>
             </div>
