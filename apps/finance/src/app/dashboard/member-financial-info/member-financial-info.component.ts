@@ -1,27 +1,12 @@
 import { Statement } from '@angular/compiler';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { Subscription } from 'rxjs';
+import { DataServiceService } from '../../services/data-service.service';
 
 @Component({
   selector: 'finance-dashboard-member-financial-info',
@@ -36,16 +21,42 @@ export class MemberFinancialInfoComponent implements OnInit {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
-  constructor() { }
+  unsub:Subscription | undefined;
+  constructor(private service:DataServiceService, private afs: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.dataSource.data = this.finInfo['fin-statement'];
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.getFinData(this.finInfo['file-number'], this.finInfo['duration']);
+//     var x = this.afs.collection('members').doc('2');
+//     x.set({'fin-statement': [{
+//       'due-date': '',
+// 'monthly-emi': 3060,
+// 'paid': true,
+// 'sno': 1
+//     }]}, {merge:true});
+  }
+
+  getFinData(fileId:any, duration:any) {
+    this.unsub?.unsubscribe();
+    this.unsub = this.service.getFinanceData(fileId, duration).subscribe(res=> {
+      console.log('fin data', res);
+      this.dataSource.data = res;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  updatePaid(status:any, row:any) {
+    console.log('paid', status );
+    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status);
+
   }
   
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  ngOnDestroy() {
+    this.unsub?.unsubscribe();
+}
 }

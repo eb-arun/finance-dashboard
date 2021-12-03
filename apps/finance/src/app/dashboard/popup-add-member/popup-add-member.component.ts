@@ -102,30 +102,11 @@ financeCalcluation(all:any, total: any, doc: any, reference: any, duration:any) 
   all['totalInterest'] = totalInterest;
   all['totalAmount'] = totalAmount;
   all['emiPerMonth'] = emiPerMonth;
-  this.durationStatement(all);
+  this.doneBy(all);
   
 }
 
-durationStatement(all:any) {
-  var date = new Date();
-  var todayDate = date.getDate();
-  var duration = all.duration;
-  var statement = [];
-  var monthlyEMI = all.emiPerMonth;
-  for(let i=1;i<=duration;i++){
-    let dueDate = new Date(date.getFullYear(), date.getMonth()+i, todayDate);
-    let state = {
-      'due-date':dueDate,
-      'sno' : i,
-      'monthly-emi': monthlyEMI,
-      'paid':false 
-    }
-    statement.push(state);
-  }
-  console.log('emi state', statement);
-  all['fin-statement'] = statement;
-  this.doneBy(all);
-}
+
 
 doneBy(formInputs:any) {
   if(this.data.request == 'add') {
@@ -144,9 +125,30 @@ addMemberDB(formInputs:any) {
   
   this.service.addMember(formInputs['file-number'], formInputs);
   console.log('final add values', formInputs);
-  this.closePop();
+  this.closePop(); 
 }
 
+// durationStatement(all:any) {
+//   var date = new Date();
+//   var todayDate = date.getDate();
+//   var duration = all.duration;
+//   var statement = [];
+//   var monthlyEMI = all.emiPerMonth;
+//   for(let i=1;i<=duration;i++){
+//     let dueDate = new Date(date.getFullYear(), date.getMonth()+i, todayDate);
+//     let state = {
+//       'due-date':dueDate,
+//       'sno' : i,
+//       'monthly-emi': monthlyEMI,
+//       'paid':false 
+//     }
+//     this.service.addFinanceData(all['file-number'], i, state);
+//     statement.push(state);
+//   }
+//   console.log('emi state', statement);
+//   all['fin-statement'] = statement; 
+//   this.closePop(); 
+// }
 
 
 }
