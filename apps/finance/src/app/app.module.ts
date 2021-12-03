@@ -23,9 +23,11 @@ import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { PopupDeleteMemberComponent } from './dashboard/popup-delete-member/popup-delete-member.component';
+import { PopupDeleteInvestorComponent } from './dashboard/popup-delete-investor/popup-delete-investor.component';
+import { PopupTopupInvestorComponent } from './dashboard/popup-topup-investor/popup-topup-investor.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent, PopupDeleteMemberComponent],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, AddmemberComponent, AddInvestorComponent, ViewAllMemberComponent, PopupAddMemberComponent, ViewAllInvestorsComponent, PopupAddInvestorComponent, PopupMemberProfileComponent, MemberPersonalInfoComponent, MemberFinancialInfoComponent, PopupDeleteMemberComponent, PopupDeleteInvestorComponent, PopupTopupInvestorComponent],
   imports: [
     BrowserModule, 
     BrowserAnimationsModule,

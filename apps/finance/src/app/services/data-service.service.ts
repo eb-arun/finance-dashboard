@@ -83,4 +83,72 @@ export class DataServiceService {
       return this.afs.collection('members').doc(fileId).collection('finance', ref=>ref.where('sno', '<=', duration)).valueChanges();
   }
 
+  addInvestor(inputs:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('investors').doc(`${inputs.mobile}`).set(inputs).then(res=> {
+        console.log('add success', res);
+        this.addInvestorFin(inputs);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
+  updateInsvestorTotal(total:any, mobile:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('investors').doc(`${mobile}`).set({'amount': total}, {merge:true}).then(res=> {
+        console.log('update total success', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
+  addInvestorFin(inputs:any){
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('investors').doc(`${inputs.mobile}`).collection('finance').doc().set(
+        {
+          'date': inputs['date-selection'],
+          'amount': inputs.amount,
+          'created': Date.now(),
+          'created-by': this.userName.value
+        }
+        , {merge:true}).then(res=> {
+          // this.totalCalculation(inputs);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
+  totalCalculation(inputs:any) {
+    return this.afs.collection('investors').doc(`${inputs.mobile}`).collection('finance');
+  }
+
+  getInvestors() {
+    return this.afs.collection('investors').valueChanges();
+  }
+
+  getInvestorsFin(mobile:any) {
+    return this.afs.collection('investors').doc(`${mobile}`).collection('finance').valueChanges();
+  }
+
+  deleteInvestor(mobile:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('investors').doc(`${mobile}`).delete().then(res=> {
+        console.log('delete success', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
 }

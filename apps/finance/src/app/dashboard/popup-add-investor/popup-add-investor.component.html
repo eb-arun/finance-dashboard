@@ -25,6 +25,25 @@
                 </mat-form-field>
               </p>
       <p>
+        <p>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile</mat-label>
+            <input type="number"
+              formControlName="mobile"
+              matInput
+              placeholder="enter mobile number"
+            />
+            <mat-error
+              *ngIf="
+                !addInFormGroup.controls['mobile'].valid &&
+                addInFormGroup.controls['mobile'].touched
+              "
+            >
+              {{ errorInvalid }}
+            </mat-error>
+          </mat-form-field>
+        </p>
+<p>
         <mat-form-field appearance="outline">
           <mat-label>Date</mat-label>
           <input
@@ -47,7 +66,7 @@
       <p>
         <mat-form-field appearance="outline">
           <mat-label>Amount</mat-label>
-          <input
+          <input type="number"
             formControlName="amount"
             matInput
             placeholder="invested amount"
@@ -65,7 +84,7 @@
         </div>
         <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
             <button style="margin-right: 5px;" mat-raised-button color="warn" (click)="closePop()">Cancel</button>
-            <button mat-raised-button color="primary">Add</button>
+            <button mat-raised-button color="primary" (click)="addInvestor(addInFormGroup.value, addInFormGroup.status)">Add</button>
         </p>
     </form>
   </div>

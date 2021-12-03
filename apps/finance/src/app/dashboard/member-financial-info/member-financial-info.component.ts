@@ -1,6 +1,5 @@
 import { Statement } from '@angular/compiler';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,7 +21,7 @@ export class MemberFinancialInfoComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
   unsub:Subscription | undefined;
-  constructor(private service:DataServiceService, private afs: AngularFirestore) { }
+  constructor(private service:DataServiceService) { }
 
   ngOnInit(): void {
     this.getFinData(this.finInfo['file-number'], this.finInfo['duration']);
