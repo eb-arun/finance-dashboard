@@ -23,10 +23,22 @@ export class DataServiceService {
     })
   }
 
+  deleteMemberFinance(fileId:any, financeIndex:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('members').doc(fileId).collection('finance').doc(`${financeIndex}`).delete().then(res=> {
+        console.log('delete mem finance success', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
   deleteMember(fileId:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).delete().then(res=> {
-        console.log('add success', res);
+        console.log('delete member success', res);
       },
       err=> {
         reject(err)

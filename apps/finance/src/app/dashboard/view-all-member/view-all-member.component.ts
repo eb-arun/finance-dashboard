@@ -92,11 +92,11 @@ export class ViewAllMemberComponent implements OnInit {
     
   // }
 
-  deleteMember(fileId:any, event:Event) {
+  deleteMember(member:any, event:Event) {
     const dialogRef = this.dialog.open(PopupDeleteMemberComponent, {
       height: 'auto' ,
       width:'550px',
-      data: fileId
+      data: member
     });
 
     dialogRef.afterClosed().subscribe(result => {

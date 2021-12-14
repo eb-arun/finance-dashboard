@@ -14,7 +14,10 @@ export class PopupDeleteMemberComponent implements OnInit {
   }
 
   deleteMember() {
-    this.service.deleteMember(this.data);
+    for(let i = 1;i<=this.data['duration'];i++) {
+      this.service.deleteMemberFinance(this.data['file-number'], i);
+    }
+    this.service.deleteMember(this.data['file-number']);
     this.onNoClick();
   }
 
