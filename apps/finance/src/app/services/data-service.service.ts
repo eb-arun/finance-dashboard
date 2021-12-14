@@ -78,7 +78,7 @@ export class DataServiceService {
   }
 
   durationStatement(all:any) {
-    var date = new Date();
+    var date = all['date-selection'];
     var todayDate = date.getDate();
     var duration = all.duration;
     var statement = [];
