@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
     username= new FormControl('', [Validators.required])
     password = new FormControl('', [Validators.required])
     fires:Subscription | undefined;
-  @Input() error: string | null | undefined;
+    invalidLogin:boolean = false;
+  @Input() error: string | null | undefined = 'Invalid credentials';
 
   @Output() submitEM = new EventEmitter();
   constructor(private route:Router, private afs: AngularFirestore, private dataService:DataServiceService) { }
@@ -24,14 +25,17 @@ export class LoginComponent implements OnInit {
   }
  
   authLogin() {
-    this.fires = this.afs.collection('login', ref=> ref.where('username', '==', this.username.value).where('password', '==', this.password.value)).valueChanges().subscribe(res=> {
-      if(res.length == 1){
-        this.makeActive(this.username.value);
-      } else {
-        alert('Invalid Login')
-      }
-    })
-    
+
+    if(this.username.value !='' && this.password.value != '') {
+        this.fires = this.afs.collection('login', ref=> ref.where('username', '==', this.username.value).where('password', '==', this.password.value)).valueChanges().subscribe(res=> {
+        if(res.length == 1){
+          this.invalidLogin = false;
+          this.makeActive(this.username.value);
+        } else {
+          this.invalidLogin = true;
+        }
+      })
+    }    
   }
 
   makeActive(username:any) {

@@ -27,7 +27,7 @@ export class PopupAddMemberComponent implements OnInit {
         'town':[null, [Validators.required]],
         'city':[null, [Validators.required]],
         'district':[null, [Validators.required]],
-        'month-duration':[null, [Validators.required]],
+        'duration':[null, [Validators.required]],
         'doc-charge':[null, [Validators.required]],
         'vehicle':[null, [Validators.required]],
         'mobile':[null, [Validators.required]],
@@ -37,7 +37,6 @@ export class PopupAddMemberComponent implements OnInit {
         'insurance':[null, []],
         'key':[null, []],
         'total-amount':[null, [Validators.required]],
-        'duration':[null, [Validators.required]],
         'date-selection':[null, [Validators.required]],
         'reference-by':[null, []],
         'ref-name': [null, []],
@@ -53,7 +52,6 @@ export class PopupAddMemberComponent implements OnInit {
         'town':[this.data.member['town'], [Validators.required]],
         'city':[this.data.member['city'], [Validators.required]],
         'district':[this.data.member['district'], [Validators.required]],
-        'month-duration':[this.data.member['month-duration'], [Validators.required]],
         'doc-charge':[this.data.member['doc-charge'], [Validators.required]],
         'vehicle':[this.data.member['vehicle'], [Validators.required]],
         'mobile':[this.data.member['mobile'], [Validators.required]],
@@ -113,6 +111,8 @@ doneBy(formInputs:any) {
     formInputs['created']= new Date();
     formInputs['created-by'] = this.service.userName.value;
   } else if(this.data.request == 'update') {
+    if(formInputs['duration'] != this.data.member['duration'])
+    this.deleteMember(); // to delete exisiting docs before updating with new duration
     formInputs['created']= this.data.member['created'];
     formInputs['created-by'] = this.data.member['created-by'];
     formInputs['updated']= new Date();
@@ -121,9 +121,16 @@ doneBy(formInputs:any) {
   this.addMemberDB(formInputs);
 }
 
+deleteMember() {
+  for(let i = 1;i<=this.data.member['duration'];i++) {
+    this.service.deleteMemberFinance(this.data.member['file-number'], i);
+  }
+}
+
+
 addMemberDB(formInputs:any) {
   
-  this.service.addMember(formInputs['file-number'], formInputs);
+  this.service.addMember(formInputs['file-number'], formInputs, this.data);
   console.log('final add values', formInputs);
   this.closePop(); 
 }

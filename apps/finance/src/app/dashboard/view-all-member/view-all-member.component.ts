@@ -16,7 +16,7 @@ import { PopupMemberProfileComponent } from '../popup-member-profile/popup-membe
   styleUrls: ['./view-all-member.component.css']
 })
 export class ViewAllMemberComponent implements OnInit {
-  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'month-duration', 'action'];
+  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'duration', 'action'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator)
@@ -61,7 +61,7 @@ export class ViewAllMemberComponent implements OnInit {
   openProfile(member: any) {
     const dialogRef = this.dialog.open(PopupMemberProfileComponent, {
       height: '90vh' ,
-      width:'750px',
+      width:'950px',
       data: member
     });
 

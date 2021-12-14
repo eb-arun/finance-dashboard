@@ -10,10 +10,11 @@ export class DataServiceService {
   interest:number = 2;
   constructor(public afs: AngularFirestore) { }
 
-  addMember(fileId:any, inputs:any) {
+  addMember(fileId:any, inputs:any, type:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).set(inputs).then(res=> {
         console.log('add success', res);
+        if(type.request == 'add' || (inputs['duration'] != type.member['duration']))
         this.durationStatement(inputs);
       },
       err=> {
@@ -47,9 +48,15 @@ export class DataServiceService {
     })
   }
 
-  updateMemberFinPaid(fileId:any, serialNo:any, status:boolean) {
+  updateMemberFinPaid(fileId:any, serialNo:any, status:boolean, emi:any, total:any, fine:any=0) {
     new Promise<any>((resolve, reject) =>{
-      this.afs.collection('members').doc(fileId).collection('finance').doc(`${serialNo}`).update({'paid':status}).then(res=> {
+      this.afs.collection('members').doc(fileId).collection('finance').doc(`${serialNo}`).update({
+        'paid':status,
+        'paid-total':emi,
+        'fine':fine,
+        'paid-amount':total
+    
+    }).then(res=> {
         console.log('add success', res);
       },
       err=> {

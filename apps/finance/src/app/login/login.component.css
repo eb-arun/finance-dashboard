@@ -16,8 +16,8 @@
   }
 
   .error {
-    padding: 16px;
-    width: 300px;
+    padding: 5px;
+    display: inline;
     color: white;
     background-color: red;
   }

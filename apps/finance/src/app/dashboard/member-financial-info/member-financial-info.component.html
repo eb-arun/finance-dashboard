@@ -43,6 +43,36 @@
           </mat-button-toggle-group>  
         </td>
       </ng-container>
+
+      <ng-container matColumnDef="paid-total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Paid Total </th>
+        <td mat-cell *matCellDef="let row"> {{row['paid-total']}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Update </th>
+        <td mat-cell *matCellDef="let row">
+          <div style="font-size: 12px;" class="m-f-update" *ngIf="row['paid']">
+          <mat-form-field appearance="outline" style="width: 40%;">
+            <mat-label>Paid</mat-label>
+            <input type="number" matInput #paid placeholder="Paid" [(ngModel)]="row['paid-amount']">
+          </mat-form-field>
+          <mat-form-field appearance="outline" width="20%" style="width: 35%;">
+            <mat-label>Fine</mat-label>
+            <input type="number" matInput #fine [(ngModel)]="row['fine']" placeholder="Fine/Penalty">
+          </mat-form-field>
+          <button (click)="updatePaidInputs(row, paid.value, fine.value)" mat-mini-fab color="primary" aria-label="Example icon button with a heart icon">
+            <mat-icon>published_with_changes</mat-icon>
+          </button>
+        </div>
+          <!-- <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="font-size: 12px;" class="m-f-update">
+           
+          
+            
+          </div> -->
+            
+        </td>
+      </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

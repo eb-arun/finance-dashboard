@@ -14,7 +14,7 @@ import { DataServiceService } from '../../services/data-service.service';
 })
 export class MemberFinancialInfoComponent implements OnInit {
   @Input() finInfo:any;
-  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid'];
+  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid', 'paid-total', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -45,9 +45,16 @@ export class MemberFinancialInfoComponent implements OnInit {
   }
 
   updatePaid(status:any, row:any) {
-    console.log('paid', status );
-    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status);
+    if(status){
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, row['monthly-emi'], row['monthly-emi']);
+    } else {
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, '', '');
+    }
+  }
 
+  updatePaidInputs(row:any, paid:any, fine:any=0) {
+    console.log('paid', row, paid, fine);
+    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], Number(paid)+Number(fine), Number(paid), fine);
   }
   
   ngAfterViewInit() {

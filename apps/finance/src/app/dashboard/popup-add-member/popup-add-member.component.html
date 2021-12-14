@@ -113,14 +113,14 @@
       <mat-form-field appearance="outline">
         <mat-label>Month Duration</mat-label>
         <input type='number'
-          formControlName="month-duration"
+          formControlName="duration"
           matInput
           placeholder="enter duration in month"
         />
         <mat-error
           *ngIf="
-            !addFormGroup.controls['month-duration'].valid &&
-            addFormGroup.controls['month-duration'].touched
+            !addFormGroup.controls['duration'].valid &&
+            addFormGroup.controls['duration'].touched
           "
         >
           {{ errorInvalid }}
@@ -233,7 +233,7 @@
         </mat-error>
       </mat-form-field>
     </p>
-    <p>
+    <!-- <p>
       <mat-form-field appearance="outline">
         <mat-label>Duration</mat-label>
         <input type='number'
@@ -250,7 +250,7 @@
           {{ errorInvalid }}
         </mat-error>
       </mat-form-field>
-    </p>
+    </p> -->
     <p>
       <mat-form-field appearance="outline">
         <mat-label>Document Charges</mat-label>
