@@ -65,11 +65,6 @@
             <mat-icon>published_with_changes</mat-icon>
           </button>
         </div>
-          <!-- <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="font-size: 12px;" class="m-f-update">
-           
-          
-            
-          </div> -->
             
         </td>
       </ng-container>
@@ -84,4 +79,7 @@
     </table>
   
     <mat-paginator [pageSizeOptions]="[20, 50, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+  <div>
+    <a class="preClose" (click)="preClose()">Want to preclose ?</a>
   </div>

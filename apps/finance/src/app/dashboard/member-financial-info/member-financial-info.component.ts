@@ -21,6 +21,7 @@ export class MemberFinancialInfoComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
   unsub:Subscription | undefined;
+  totalEmiHistory:any;
   constructor(private service:DataServiceService) { }
 
   ngOnInit(): void {
@@ -38,6 +39,7 @@ export class MemberFinancialInfoComponent implements OnInit {
     this.unsub?.unsubscribe();
     this.unsub = this.service.getFinanceData(fileId, duration).subscribe(res=> {
       console.log('fin data', res);
+      this.totalEmiHistory = res;
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -48,13 +50,30 @@ export class MemberFinancialInfoComponent implements OnInit {
     if(status){
       this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, row['monthly-emi'], row['monthly-emi']);
     } else {
-      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, '', '');
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, 0);
     }
+    setTimeout(()=> {
+      this.totalPaid()
+    }, 3000);
   }
 
   updatePaidInputs(row:any, paid:any, fine:any=0) {
     console.log('paid', row, paid, fine);
     this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], Number(paid)+Number(fine), Number(paid), fine);
+    setTimeout(()=> {
+      this.totalPaid()
+    }, 3000);
+  }
+
+  totalPaid() {
+    var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
+    var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
+    console.log('totalPaid', totalPaid);
+    this.service.updateMember(this.finInfo['file-number'], totalPaid);
+  }
+
+  preClose() {
+
   }
   
   ngAfterViewInit() {

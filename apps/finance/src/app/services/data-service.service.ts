@@ -24,6 +24,20 @@ export class DataServiceService {
     })
   }
 
+  updateMember(fileId:any, total:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('members').doc(fileId).update({
+        'totalPaid':total
+    }).then(res=> {
+        console.log('update total paid success', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
   deleteMemberFinance(fileId:any, financeIndex:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).collection('finance').doc(`${financeIndex}`).delete().then(res=> {
