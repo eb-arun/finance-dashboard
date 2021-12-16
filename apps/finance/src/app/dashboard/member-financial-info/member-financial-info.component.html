@@ -80,6 +80,64 @@
   
     <mat-paginator [pageSizeOptions]="[20, 50, 100]" aria-label="Select page of users"></mat-paginator>
   </div>
-  <div>
-    <a class="preClose" (click)="preClose()">Want to preclose ?</a>
-  </div>
+
+  <mat-accordion *ngIf="this.finInfo['status']!='pre-closed'">
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header style="background-color: #cabae9;">
+        <mat-panel-title>
+          Do you want to pre close ?
+        </mat-panel-title>
+        <mat-panel-description>
+          click to open pre close form
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+        <div class="profile-title-wrap">
+          <form [formGroup]="preCloseFormGroup" class="form" fxLayout="row" fxLayout.lt-md="column" style="font-size:12px;margin-top: 12px;" fxLayoutAlign="space-around start" fxLayoutAlign.lt-md="space-around center" ngStyle.lt-md="margin-bottom:10px">
+            
+      <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Date</mat-label>
+                <input
+                formControlName="preclose-date"
+                matInput
+                [matDatepicker]="picker"
+              />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error
+                *ngIf="
+                  !preCloseFormGroup.controls['preclose-date'].valid
+                "
+              >
+                {{ errorInvalid }}
+              </mat-error>
+              </mat-form-field>
+            </p>
+            
+            <p>
+              <mat-form-field appearance="outline">
+                <mat-label>Pre Close Amount</mat-label>
+                <input type="number"
+                  formControlName="preclose-amount"
+                  matInput
+                  placeholder="Pre Close Amount"
+                />
+                <mat-error
+                  *ngIf="
+                    !preCloseFormGroup.controls['preclose-amount'].valid &&
+                    preCloseFormGroup.controls['preclose-amount'].touched
+                  "
+                >
+                  {{ errorInvalid }}
+                </mat-error>
+              </mat-form-field>
+            </p>
+              <p style="margin-top: 5px;" fxLayout="row" fxLayoutAlign="center center">
+                  <button style="margin-right: 5px;" mat-raised-button color="primary" (click)="preClose(preCloseFormGroup.value, preCloseFormGroup.status)">Add</button>
+                  <!-- <button mat-raised-button color="warn" (click)="panelOpenState = true">Cancel</button> -->
+              </p>
+          </form>
+        </div>
+    </mat-expansion-panel>
+  </mat-accordion>

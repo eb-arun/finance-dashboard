@@ -38,6 +38,36 @@ export class DataServiceService {
     })
   }
 
+  updateMemberPreclose(fileId:any, total:any, preClose:any, preCloseDate:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('members').doc(fileId).update({
+        'totalPaid':total, 
+        'preClosePaid': preClose,
+        'preClosedDate': preCloseDate
+    }).then(res=> {
+        console.log('update total paid and preclose details', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
+  updateMemberStatus(fileId:any, status:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('members').doc(fileId).update({
+        'status':status
+    }).then(res=> {
+        console.log('updated status', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
   deleteMemberFinance(fileId:any, financeIndex:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).collection('finance').doc(`${financeIndex}`).delete().then(res=> {

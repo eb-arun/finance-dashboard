@@ -1,6 +1,7 @@
 import { Statement } from '@angular/compiler';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,10 +23,21 @@ export class MemberFinancialInfoComponent implements OnInit {
   sort!: MatSort;
   unsub:Subscription | undefined;
   totalEmiHistory:any;
-  constructor(private service:DataServiceService) { }
+  preCloseFormGroup: any;
+  errorInvalid:string = "Field is required";
+  panelOpenState = false;
+  constructor(private service:DataServiceService, private formBuilder:FormBuilder, private dialogRef: MatDialog) { }
 
   ngOnInit(): void {
+    console.log('full data', this.finInfo)
+    if(this.finInfo['status']=='pre-closed'){
+      this.displayedColumns = ['sno', 'monthly-emi', 'due-date', 'paid-total'];
+    }
     this.getFinData(this.finInfo['file-number'], this.finInfo['duration']);
+    this.preCloseFormGroup = this.formBuilder.group({
+      'preclose-date': [null, [Validators.required]],
+      'preclose-amount': [null, [Validators.required]]
+    })
 //     var x = this.afs.collection('members').doc('2');
 //     x.set({'fin-statement': [{
 //       'due-date': '',
@@ -52,6 +64,7 @@ export class MemberFinancialInfoComponent implements OnInit {
     } else {
       this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, 0);
     }
+    this.service.updateMemberStatus(this.finInfo['file-number'], 'ongoing');
     setTimeout(()=> {
       this.totalPaid()
     }, 3000);
@@ -72,10 +85,23 @@ export class MemberFinancialInfoComponent implements OnInit {
     this.service.updateMember(this.finInfo['file-number'], totalPaid);
   }
 
-  preClose() {
-
+  preClose(inputs:any, valid:any) {
+    if(valid == "VALID") {
+      var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
+      var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
+      console.log('totalPaid', totalPaid, totalPaid+inputs['preclose-amount']);
+      var totalPreClosed = totalPaid+inputs['preclose-amount'];
+      this.service.updateMemberPreclose(this.finInfo['file-number'], totalPreClosed, inputs['preclose-amount'], inputs['preclose-date']);
+      this.service.updateMemberStatus(this.finInfo['file-number'], 'pre-closed');
+      this.closePopup();
+    }
   }
-  
+
+  closePopup() {
+    this.dialogRef.closeAll();
+  }
+
+ 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

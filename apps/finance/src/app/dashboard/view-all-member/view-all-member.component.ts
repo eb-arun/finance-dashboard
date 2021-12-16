@@ -16,7 +16,7 @@ import { PopupMemberProfileComponent } from '../popup-member-profile/popup-membe
   styleUrls: ['./view-all-member.component.css']
 })
 export class ViewAllMemberComponent implements OnInit {
-  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action'];
+  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action', 'status'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator)

@@ -110,6 +110,7 @@ doneBy(formInputs:any) {
   if(this.data.request == 'add') {
     formInputs['created']= new Date();
     formInputs['created-by'] = this.service.userName.value;
+    formInputs['status'] = 'new';
   } else if(this.data.request == 'update') {
     if(formInputs['duration'] != this.data.member['duration'])
     this.deleteMember(); // to delete exisiting docs before updating with new duration
