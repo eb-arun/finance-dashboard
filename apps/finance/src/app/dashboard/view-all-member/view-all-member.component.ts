@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { BehaviorSubject } from 'rxjs';
 import { DataServiceService } from '../../services/data-service.service';
 import { PopupAddMemberComponent } from '../popup-add-member/popup-add-member.component';
 import { PopupDeleteMemberComponent } from '../popup-delete-member/popup-delete-member.component';
@@ -18,6 +19,7 @@ import { PopupMemberProfileComponent } from '../popup-member-profile/popup-membe
 export class ViewAllMemberComponent implements OnInit {
   displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action', 'status'];
   dataSource = new MatTableDataSource();
+  dueFileID: any;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -28,11 +30,13 @@ export class ViewAllMemberComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+ 
   
   constructor(public dialog: MatDialog, private service:DataServiceService, private afs:AngularFirestore) { }
 
   ngOnInit(): void {
     this.listAllMember();
+
   }
 
   applyFilter(event: Event) {
@@ -74,7 +78,29 @@ export class ViewAllMemberComponent implements OnInit {
     this.afs.collection('members').valueChanges().subscribe(res=>{
       this.dataSource.data = res;
       console.log('all mem',this.dataSource.data);
+      this.listAllMemberFin();
     })
+  }
+
+  listAllMemberFin() {
+    var allFinance:any = [];
+    var data:any = this.dataSource.data;
+    var dueFiles:any = [];
+    for(let i=0;i<this.dataSource.data.length;i++) {
+      this.afs.collection('members').doc(data[i]['file-number']).collection('finance').valueChanges().subscribe(res=>{
+        console.log('mem fin',res);
+        allFinance.push(res);
+        var today = new Date();
+        res.filter(x=> {
+          if((x['due-date'].toDate().getTime()<today.getTime()) == true && x.paid == false ) {
+            console.log('due file ID',data[i]['file-number'] )
+            dueFiles.push(data[i]['file-number']);
+          }
+          })
+          this.dueFileID = [...new Set(dueFiles)];
+      })
+      console.log('due files uniques', this.dueFileID);
+    }
   }
 
   // updateMember(member:any, event:Event) {

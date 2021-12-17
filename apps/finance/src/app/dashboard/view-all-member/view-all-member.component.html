@@ -18,7 +18,8 @@
       <button mat-raised-button color="primary" (click)="addMemberPopup('', 'add', $event)">Add Finance Member</button>
 </div>
 
-  
+  <div *ngIf="dueFileID.length>0" style="color: brown;font-family: sans-serif;margin-bottom: 2px;">Due Files: <span>{{dueFileID}} </span></div>
+
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
   
