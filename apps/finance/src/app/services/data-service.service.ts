@@ -14,7 +14,7 @@ export class DataServiceService {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).set(inputs).then(res=> {
         console.log('add success', res);
-        if(type.request == 'add' || (inputs['duration'] != type.member['duration']))
+        if(type.request == 'add' || (inputs['duration'] != type.member['duration']) || (inputs['date-selection'] != type.member['date-selection']))
         this.durationStatement(inputs);
       },
       err=> {
