@@ -15,7 +15,6 @@ export class PopupAddMemberComponent implements OnInit {
   showRef:boolean= false;
   propDisable:boolean = true;
   constructor(private formBuilder:FormBuilder, private dialogRef:MatDialogRef<PopupAddMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private service:DataServiceService) {
-    console.log(this.data);
    }
 
   ngOnInit(): void { 
@@ -82,7 +81,6 @@ closePop() {
 }
 
 addMember(inputs:any, status:any) {
-  console.log('add form data', inputs);
   if(status == "VALID") {
     this.financeCalcluation(inputs, inputs['total-amount'], inputs['doc-charge'], inputs['ref-amount'], inputs['duration']);
   }
@@ -132,7 +130,6 @@ deleteMember() {
 addMemberDB(formInputs:any) {
   
   this.service.addMember(formInputs['file-number'], formInputs, this.data);
-  console.log('final add values', formInputs);
   this.closePop(); 
 }
 

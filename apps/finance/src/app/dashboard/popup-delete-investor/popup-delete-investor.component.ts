@@ -13,7 +13,6 @@ export class PopupDeleteInvestorComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PopupDeleteMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public service:DataServiceService) { }
 
   ngOnInit(): void {
-    console.log('delete data', this.data)
   }
 
   getLengthFin() {

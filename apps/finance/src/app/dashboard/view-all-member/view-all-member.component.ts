@@ -56,7 +56,6 @@ export class ViewAllMemberComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
 
     event.stopPropagation();
@@ -70,14 +69,12 @@ export class ViewAllMemberComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
   listAllMember() {
     this.afs.collection('members').valueChanges().subscribe(res=>{
       this.dataSource.data = res;
-      console.log('all mem',this.dataSource.data);
       this.listAllMemberFin();
     })
   }
@@ -88,18 +85,15 @@ export class ViewAllMemberComponent implements OnInit {
     var dueFiles:any = [];
     for(let i=0;i<this.dataSource.data.length;i++) {
       this.afs.collection('members').doc(data[i]['file-number']).collection('finance').valueChanges().subscribe(res=>{
-        console.log('mem fin',res);
         allFinance.push(res);
         var today = new Date();
         res.filter(x=> {
           if((x['due-date'].toDate().getTime()<today.getTime()) == true && x.paid == false ) {
-            console.log('due file ID',data[i]['file-number'] )
             dueFiles.push(data[i]['file-number']);
           }
           })
           this.dueFileID = [...new Set(dueFiles)];
       })
-      console.log('due files uniques', this.dueFileID);
     }
   }
 
@@ -126,7 +120,6 @@ export class ViewAllMemberComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
 
 

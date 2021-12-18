@@ -29,7 +29,6 @@ export class MemberFinancialInfoComponent implements OnInit {
   constructor(private service:DataServiceService, private formBuilder:FormBuilder, private dialogRef: MatDialog) { }
 
   ngOnInit(): void {
-    console.log('full data', this.finInfo)
     if(this.finInfo['status']=='pre-closed'){
       this.displayedColumns = ['sno', 'monthly-emi', 'due-date', 'paid-total'];
     }
@@ -50,7 +49,6 @@ export class MemberFinancialInfoComponent implements OnInit {
   getFinData(fileId:any, duration:any) {
     this.unsub?.unsubscribe();
     this.unsub = this.service.getFinanceData(fileId, duration).subscribe(res=> {
-      console.log('fin data', res);
       this.totalEmiHistory = res;
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
@@ -71,7 +69,6 @@ export class MemberFinancialInfoComponent implements OnInit {
   }
 
   updatePaidInputs(row:any, paid:any, fine:any=0) {
-    console.log('paid', row, paid, fine);
     this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], Number(paid)+Number(fine), Number(paid), fine);
     setTimeout(()=> {
       this.totalPaid()
@@ -81,7 +78,6 @@ export class MemberFinancialInfoComponent implements OnInit {
   totalPaid() {
     var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
     var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
-    console.log('totalPaid', totalPaid);
     this.service.updateMember(this.finInfo['file-number'], totalPaid);
   }
 
@@ -89,7 +85,6 @@ export class MemberFinancialInfoComponent implements OnInit {
     if(valid == "VALID") {
       var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
       var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
-      console.log('totalPaid', totalPaid, totalPaid+inputs['preclose-amount']);
       var totalPreClosed = totalPaid+inputs['preclose-amount'];
       this.service.updateMemberPreclose(this.finInfo['file-number'], totalPreClosed, inputs['preclose-amount'], inputs['preclose-date']);
       this.service.updateMemberStatus(this.finInfo['file-number'], 'pre-closed');

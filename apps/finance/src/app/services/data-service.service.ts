@@ -13,7 +13,6 @@ export class DataServiceService {
   addMember(fileId:any, inputs:any, type:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).set(inputs).then(res=> {
-        console.log('add success', res);
         if(type.request == 'add' || (inputs['duration'] != type.member['duration']) || (inputs['date-selection'] != type.member['date-selection']))
         this.durationStatement(inputs);
       },
@@ -29,7 +28,6 @@ export class DataServiceService {
       this.afs.collection('members').doc(fileId).update({
         'totalPaid':total
     }).then(res=> {
-        console.log('update total paid success', res);
       },
       err=> {
         reject(err)
@@ -45,7 +43,6 @@ export class DataServiceService {
         'preClosePaid': preClose,
         'preClosedDate': preCloseDate
     }).then(res=> {
-        console.log('update total paid and preclose details', res);
       },
       err=> {
         reject(err)
@@ -59,7 +56,6 @@ export class DataServiceService {
       this.afs.collection('members').doc(fileId).update({
         'status':status
     }).then(res=> {
-        console.log('updated status', res);
       },
       err=> {
         reject(err)
@@ -71,7 +67,6 @@ export class DataServiceService {
   deleteMemberFinance(fileId:any, financeIndex:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).collection('finance').doc(`${financeIndex}`).delete().then(res=> {
-        console.log('delete mem finance success', res);
       },
       err=> {
         reject(err)
@@ -83,7 +78,6 @@ export class DataServiceService {
   deleteMember(fileId:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).delete().then(res=> {
-        console.log('delete member success', res);
       },
       err=> {
         reject(err)
@@ -101,7 +95,6 @@ export class DataServiceService {
         'paid-amount':total
     
     }).then(res=> {
-        console.log('add success', res);
       },
       err=> {
         reject(err)
@@ -138,7 +131,6 @@ export class DataServiceService {
       this.addFinanceData(all['file-number'], i, state);
       statement.push(state);
     }
-    console.log('emi state', statement);
     all['fin-statement'] = statement; 
   }
 
@@ -149,7 +141,6 @@ export class DataServiceService {
   addInvestor(inputs:any, id:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${inputs.mobile}`).set(inputs).then(res=> {
-        console.log('add success', res);
         this.addInvestorFin(inputs, id);
       },
       err=> {
@@ -162,7 +153,6 @@ export class DataServiceService {
   updateInsvestorTotal(total:any, mobile:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${mobile}`).set({'amount': total}, {merge:true}).then(res=> {
-        console.log('update total success', res);
       },
       err=> {
         reject(err)
@@ -205,7 +195,6 @@ export class DataServiceService {
   deleteInvestor(mobile:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${mobile}`).delete().then(res=> {
-        console.log('delete success', res);
       },
       err=> {
         reject(err)
@@ -217,7 +206,6 @@ export class DataServiceService {
   deleteInvestorFinance(mobile:any, financeIndex:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${mobile}`).collection('finance').doc(`${financeIndex}`).delete().then(res=> {
-        console.log('delete inv finance success', res);
       },
       err=> {
         reject(err)

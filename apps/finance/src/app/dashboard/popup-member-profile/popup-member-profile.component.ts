@@ -8,7 +8,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class PopupMemberProfileComponent implements OnInit {
   constructor(private dialogRef:MatDialogRef<PopupMemberProfileComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('profile', this.data);
    }
 
   ngOnInit(): void {

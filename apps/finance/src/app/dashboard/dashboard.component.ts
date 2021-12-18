@@ -11,7 +11,6 @@ export class DashboardComponent implements OnInit {
   constructor(private dataService:DataServiceService) { }
 
   ngOnInit(): void {
-    console.log('dashboard' ,this.dataService.userName.value)
   }
 
 }

@@ -41,7 +41,6 @@ export class PopupTopupInvestorComponent implements OnInit {
 
   getStatement(){
     this.service.getInvestorsFin(this.data['mobile']).subscribe(res=> {
-      console.log('in state', res)
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

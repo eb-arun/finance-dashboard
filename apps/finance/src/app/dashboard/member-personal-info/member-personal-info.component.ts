@@ -10,7 +10,6 @@ export class MemberPersonalInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('@input', this.userInfo);
   }
 
 }

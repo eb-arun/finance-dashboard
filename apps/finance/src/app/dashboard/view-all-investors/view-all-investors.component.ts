@@ -41,13 +41,11 @@ export class ViewAllInvestorsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
   getAllInvestors() {
     this.service.getInvestors().subscribe(res=> {
-      console.log('investors', res);
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -62,7 +60,6 @@ export class ViewAllInvestorsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -75,7 +72,6 @@ export class ViewAllInvestorsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
 
   }
