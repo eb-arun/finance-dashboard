@@ -13,9 +13,20 @@ export class PopupDeleteInvestorComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PopupDeleteMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public service:DataServiceService) { }
 
   ngOnInit(): void {
+    console.log('delete data', this.data)
   }
 
-  deleteInvestor() {
+  getLengthFin() {
+    this.service.getInvestorsFin(this.data).subscribe(res=> {
+      var total = res.length;
+      this.deleteInvestor(total);
+    })
+  }
+
+  deleteInvestor(totalRecords:any) {
+    for(let i = 1;i<=totalRecords;i++) {
+      this.service.deleteInvestorFinance(this.data, i);
+    }
     this.service.deleteInvestor(this.data);
     this.onNoClick();
   }

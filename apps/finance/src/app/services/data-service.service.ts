@@ -146,11 +146,11 @@ export class DataServiceService {
       return this.afs.collection('members').doc(fileId).collection('finance', ref=>ref.where('sno', '<=', duration)).valueChanges();
   }
 
-  addInvestor(inputs:any) {
+  addInvestor(inputs:any, id:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${inputs.mobile}`).set(inputs).then(res=> {
         console.log('add success', res);
-        this.addInvestorFin(inputs);
+        this.addInvestorFin(inputs, id);
       },
       err=> {
         reject(err)
@@ -171,9 +171,9 @@ export class DataServiceService {
     })
   }
 
-  addInvestorFin(inputs:any){
+  addInvestorFin(inputs:any, id:any){
     new Promise<any>((resolve, reject) =>{
-      this.afs.collection('investors').doc(`${inputs.mobile}`).collection('finance').doc().set(
+      this.afs.collection('investors').doc(`${inputs.mobile}`).collection('finance').doc(`${id}`).set(
         {
           'date': inputs['date-selection'],
           'amount': inputs.amount,
@@ -206,6 +206,18 @@ export class DataServiceService {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('investors').doc(`${mobile}`).delete().then(res=> {
         console.log('delete success', res);
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
+  deleteInvestorFinance(mobile:any, financeIndex:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('investors').doc(`${mobile}`).collection('finance').doc(`${financeIndex}`).delete().then(res=> {
+        console.log('delete inv finance success', res);
       },
       err=> {
         reject(err)

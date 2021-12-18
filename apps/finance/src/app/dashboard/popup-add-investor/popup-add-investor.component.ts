@@ -26,7 +26,7 @@ export class PopupAddInvestorComponent implements OnInit {
     if(valid == 'VALID'){
       inputs['created']= new Date();
       inputs['created-by'] = this.service.userName.value;
-      this.service.addInvestor(inputs);
+      this.service.addInvestor(inputs, '1');
       this.closePop();
     }
   }
