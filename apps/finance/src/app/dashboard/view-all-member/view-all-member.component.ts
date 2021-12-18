@@ -17,7 +17,7 @@ import { PopupMemberProfileComponent } from '../popup-member-profile/popup-membe
   styleUrls: ['./view-all-member.component.css']
 })
 export class ViewAllMemberComponent implements OnInit {
-  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action', 'status'];
+  displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action', 'status', 'modified'];
   dataSource = new MatTableDataSource();
   dueFileID: any;
 
