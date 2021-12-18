@@ -20,6 +20,7 @@ export class ViewAllMemberComponent implements OnInit {
   displayedColumns: string[] = ['file-number', 'name', 'fname', 'mobile', 'total-amount', 'totalPaid', 'duration', 'action', 'status', 'modified'];
   dataSource = new MatTableDataSource();
   dueFileID: any;
+  allFiles:any = [];
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -52,7 +53,7 @@ export class ViewAllMemberComponent implements OnInit {
     const dialogRef = this.dialog.open(PopupAddMemberComponent, {
       height: '90%' ,
       width:'750px',
-      data: {member:member, request:request}
+      data: {member:member, request:request, exists:this.allFiles}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -76,6 +77,13 @@ export class ViewAllMemberComponent implements OnInit {
     this.afs.collection('members').valueChanges().subscribe(res=>{
       this.dataSource.data = res;
       this.listAllMemberFin();
+      this.allFileNumber(res);
+    })
+  }
+
+  allFileNumber(all:any) {
+    all.filter((x: { [x: string]: any; })=> {
+      this.allFiles.push(x['file-number']);
     })
   }
 

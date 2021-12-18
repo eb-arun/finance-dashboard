@@ -8,10 +8,11 @@
     <p>
       <mat-form-field appearance="outline">
         <mat-label>File Number</mat-label>
-        <input
+        <input #file
           formControlName="file-number"
           matInput
           placeholder="enter a file number"
+          (keyup)="checkExFile(file.value)"
         />
         <mat-error
           *ngIf="
@@ -19,8 +20,15 @@
             addFormGroup.controls['file-number'].touched
           "
         >
-          {{ errorInvalid }}
+          {{ fileError || errorInvalid }}
         </mat-error>
+        <!-- <mat-error
+          *ngIf="
+            
+          "
+        >
+          {{ errorInvalid }}
+        </mat-error> -->
       </mat-form-field>
     </p>
     <p>

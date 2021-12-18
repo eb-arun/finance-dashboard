@@ -12,6 +12,7 @@ import { DataServiceService } from '../../services/data-service.service';
 export class PopupAddMemberComponent implements OnInit {
   addFormGroup: any;
   errorInvalid:string = "Field is required";
+  fileError:string = this.errorInvalid;
   showRef:boolean= false;
   propDisable:boolean = true;
   constructor(private formBuilder:FormBuilder, private dialogRef:MatDialogRef<PopupAddMemberComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private service:DataServiceService) {
@@ -78,6 +79,16 @@ showReference(data: any) {
 
 closePop() {
   this.dialogRef.close();
+}
+
+checkExFile(file:any) {
+  if(this.data.exists.includes(file)) {
+    this.addFormGroup.controls['file-number'].setErrors({'incorrect': true});
+    this.fileError = 'File number already exists';
+  } else {
+    // this.addFormGroup.controls['file-number'].setErrors(null);
+    this.fileError = this.errorInvalid;
+  }
 }
 
 addMember(inputs:any, status:any) {
