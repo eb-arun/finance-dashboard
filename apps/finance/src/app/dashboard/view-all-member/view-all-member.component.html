@@ -45,12 +45,12 @@
 
       <ng-container matColumnDef="total-amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Amount </th>
-        <td mat-cell *matCellDef="let row"> {{row['total-amount']}} </td>
+        <td mat-cell *matCellDef="let row"> {{row['total-amount'] | currency:'INR':'symbol'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="totalPaid">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Paid </th>
-        <td mat-cell *matCellDef="let row"> {{row['totalPaid']}} </td>
+        <td mat-cell *matCellDef="let row"> {{row['totalPaid'] | currency:'INR':'symbol'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="duration">
@@ -62,7 +62,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
         <td mat-cell *matCellDef="let row">
           <div fxLayout="row" fxLayoutGap="4px">
-            <div class="example-button-container">
+            <div *ngIf="row['status']!='pre-closed' && row['status']!='completed'" class="example-button-container">
               <button mat-mini-fab color="primary" (click)="addMemberPopup(row, 'update', $event)">
                 <mat-icon>update</mat-icon>
               </button>

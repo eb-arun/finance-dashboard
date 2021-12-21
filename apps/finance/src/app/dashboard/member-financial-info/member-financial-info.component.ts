@@ -15,7 +15,7 @@ import { DataServiceService } from '../../services/data-service.service';
 })
 export class MemberFinancialInfoComponent implements OnInit {
   @Input() finInfo:any;
-  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid', 'paid-total', 'action'];
+  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid-date', 'paid', 'paid-amount', 'due-amount', 'fine', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -29,9 +29,6 @@ export class MemberFinancialInfoComponent implements OnInit {
   constructor(private service:DataServiceService, private formBuilder:FormBuilder, private dialogRef: MatDialog) { }
 
   ngOnInit(): void {
-    if(this.finInfo['status']=='pre-closed'){
-      this.displayedColumns = ['sno', 'monthly-emi', 'due-date', 'paid-total'];
-    }
     this.getFinData(this.finInfo['file-number'], this.finInfo['duration']);
     this.preCloseFormGroup = this.formBuilder.group({
       'preclose-date': [null, [Validators.required]],
@@ -50,6 +47,7 @@ export class MemberFinancialInfoComponent implements OnInit {
     this.unsub?.unsubscribe();
     this.unsub = this.service.getFinanceData(fileId, duration).subscribe(res=> {
       this.totalEmiHistory = res;
+      console.log('totalEmiHistory',res)
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -57,39 +55,73 @@ export class MemberFinancialInfoComponent implements OnInit {
   }
 
   updatePaid(status:any, row:any) {
-    if(status){
-      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, row['monthly-emi'], row['monthly-emi']);
+    var paid = 0;
+    if(row['monthly-emi']>=paid) {
+      var due = row['monthly-emi']-paid;
+      var fine = 0;
     } else {
-      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, 0);
+      var fine = row['monthly-emi']-paid;
+      var due = 0;
+    }
+    if(status){
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, due, Number(paid), Date(), fine);
+    } else {
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, 0, null, 0);
     }
     this.service.updateMemberStatus(this.finInfo['file-number'], 'ongoing');
     setTimeout(()=> {
-      this.totalPaid()
+      this.totalPaid();
+      this.totalExtra();
+      var paidCount = this.totalEmiHistory.filter((x: { paid: boolean; })=>x.paid == true).length;
+      var totalCount = this.totalEmiHistory.length;
+      if(paidCount == totalCount)
+        this.preCloseStatus();
     }, 3000);
   }
 
-  updatePaidInputs(row:any, paid:any, fine:any=0) {
-    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], Number(paid)+Number(fine), Number(paid), fine);
+  preCloseStatus() {
+    this.service.updateMemberStatus(this.finInfo['file-number'], 'completed');
+  }
+
+  updatePaidInputs(row:any, paid:any) {
+    var paid = paid;
+    if(row['monthly-emi']>=Number(paid)) {
+      var due = row['monthly-emi']-Number(paid);
+      var fine = 0;
+    } else {
+      var fine = Number(paid)-row['monthly-emi'];
+      var due = 0;
+    }
+    
+    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], due, Number(paid), Date(), fine);
     setTimeout(()=> {
       this.totalPaid()
+      this.totalExtra()
     }, 3000);
   }
 
   totalPaid() {
     var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
-    var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
-    this.service.updateMember(this.finInfo['file-number'], totalPaid);
+    var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-amount']).reduce((pre: any, next: any) => pre + next, 0);
+    this.service.updateMember(this.finInfo['file-number'], Math.ceil(totalPaid));
   }
 
   preClose(inputs:any, valid:any) {
     if(valid == "VALID") {
       var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
-      var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-total']).reduce((pre: any, next: any) => pre + next, 0);
+      var totalPaid= paid.map((total: { [x: string]: any; })=>total['paid-amount']).reduce((pre: any, next: any) => pre + next, 0);
       var totalPreClosed = totalPaid+inputs['preclose-amount'];
       this.service.updateMemberPreclose(this.finInfo['file-number'], totalPreClosed, inputs['preclose-amount'], inputs['preclose-date']);
       this.service.updateMemberStatus(this.finInfo['file-number'], 'pre-closed');
       this.closePopup();
     }
+  }
+
+  totalExtra() {
+    var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
+    var totalPaid= paid.map((total: { [x: string]: any; })=>total['fine']).reduce((pre: any, next: any) => pre + next, 0);
+    this.service.updateMemberExtra(this.finInfo['file-number'], Math.ceil(totalPaid));
+    console.log('totalExtra', totalPaid);
   }
 
   closePopup() {

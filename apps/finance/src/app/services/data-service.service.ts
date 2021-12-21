@@ -36,6 +36,19 @@ export class DataServiceService {
     })
   }
 
+  updateMemberExtra(fileId:any, extra:any) {
+    new Promise<any>((resolve, reject) =>{
+      this.afs.collection('members').doc(fileId).update({
+        'totalExtraPaid':extra
+    }).then(res=> {
+      },
+      err=> {
+        reject(err)
+      })
+
+    })
+  }
+
   updateMemberPreclose(fileId:any, total:any, preClose:any, preCloseDate:any) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).update({
@@ -86,13 +99,14 @@ export class DataServiceService {
     })
   }
 
-  updateMemberFinPaid(fileId:any, serialNo:any, status:boolean, emi:any, total:any, fine:any=0) {
+  updateMemberFinPaid(fileId:any, serialNo:any, status:boolean, due:any, total:any, paidDate:any, fine:any=0) {
     new Promise<any>((resolve, reject) =>{
       this.afs.collection('members').doc(fileId).collection('finance').doc(`${serialNo}`).update({
         'paid':status,
-        'paid-total':emi,
         'fine':fine,
-        'paid-amount':total
+        'due-amount':due,
+        'paid-amount':total, 
+        'paid-date':paidDate
     
     }).then(res=> {
       },
@@ -125,8 +139,12 @@ export class DataServiceService {
       let state = {
         'due-date':dueDate,
         'sno' : i,
-        'monthly-emi': monthlyEMI,
-        'paid':false 
+        'monthly-emi': Math.ceil(monthlyEMI),
+        'paid':false,
+        'due-amount':0,
+        'fine':0,
+        'paid-amount':0,
+        'paid-date':null 
       }
       this.addFinanceData(all['file-number'], i, state);
       statement.push(state);

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { DataServiceService } from '../../services/data-service.service';
 import { PopupAddMemberComponent } from '../popup-add-member/popup-add-member.component';
 import { PopupDeleteMemberComponent } from '../popup-delete-member/popup-delete-member.component';
@@ -21,7 +21,7 @@ export class ViewAllMemberComponent implements OnInit {
   dataSource = new MatTableDataSource();
   dueFileID: any;
   allFiles:any = [];
-
+  allUnsub:Subscription | undefined;
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
@@ -74,8 +74,10 @@ export class ViewAllMemberComponent implements OnInit {
   }
 
   listAllMember() {
-    this.afs.collection('members').valueChanges().subscribe(res=>{
+    this.allUnsub?.unsubscribe();
+    this.allUnsub = this.afs.collection('members').valueChanges().subscribe(res=>{
       this.dataSource.data = res;
+      console.log('main data', res);
       this.listAllMemberFin();
       this.allFileNumber(res);
     })
@@ -139,5 +141,9 @@ export class ViewAllMemberComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  ngOnDestroy() {
+    this.allUnsub?.unsubscribe();
+}
   
 }
