@@ -65,7 +65,7 @@ export class ViewAllMemberComponent implements OnInit {
   openProfile(member: any) {
     const dialogRef = this.dialog.open(PopupMemberProfileComponent, {
       height: '90vh' ,
-      width:'950px',
+      width:'100vw',
       data: member
     });
 

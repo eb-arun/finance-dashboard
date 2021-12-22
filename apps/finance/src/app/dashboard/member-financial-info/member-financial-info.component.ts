@@ -15,7 +15,7 @@ import { DataServiceService } from '../../services/data-service.service';
 })
 export class MemberFinancialInfoComponent implements OnInit {
   @Input() finInfo:any;
-  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid-date', 'paid', 'paid-amount', 'due-amount', 'fine', 'action'];
+  displayedColumns: string[] = ['sno', 'monthly-emi', 'due-date', 'paid', 'paid-amount', 'due-amount', 'fine', 'paid-date', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -55,16 +55,8 @@ export class MemberFinancialInfoComponent implements OnInit {
   }
 
   updatePaid(status:any, row:any) {
-    var paid = 0;
-    if(row['monthly-emi']>=paid) {
-      var due = row['monthly-emi']-paid;
-      var fine = 0;
-    } else {
-      var fine = row['monthly-emi']-paid;
-      var due = 0;
-    }
     if(status){
-      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, due, Number(paid), Date(), fine);
+      this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, Number(row['monthly-emi']), Date(), 0);
     } else {
       this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'],status, 0, 0, null, 0);
     }
@@ -83,17 +75,9 @@ export class MemberFinancialInfoComponent implements OnInit {
     this.service.updateMemberStatus(this.finInfo['file-number'], 'completed');
   }
 
-  updatePaidInputs(row:any, paid:any) {
-    var paid = paid;
-    if(row['monthly-emi']>=Number(paid)) {
-      var due = row['monthly-emi']-Number(paid);
-      var fine = 0;
-    } else {
-      var fine = Number(paid)-row['monthly-emi'];
-      var due = 0;
-    }
-    
-    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], due, Number(paid), Date(), fine);
+  updatePaidInputs(row:any, paid:any, fineInput:any, date:any) {
+    var due = Number(paid)-Number(fineInput)-row['monthly-emi'];   
+    this.service.updateMemberFinPaid(this.finInfo['file-number'], row['sno'], row['paid'], Math.abs(due), Number(paid), date || Date(), Number(fineInput));
     setTimeout(()=> {
       this.totalPaid()
       this.totalExtra()
