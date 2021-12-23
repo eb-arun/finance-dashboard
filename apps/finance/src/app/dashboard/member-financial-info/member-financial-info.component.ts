@@ -47,7 +47,6 @@ export class MemberFinancialInfoComponent implements OnInit {
     this.unsub?.unsubscribe();
     this.unsub = this.service.getFinanceData(fileId, duration).subscribe(res=> {
       this.totalEmiHistory = res;
-      console.log('totalEmiHistory',res)
       this.dataSource.data = res;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -105,7 +104,6 @@ export class MemberFinancialInfoComponent implements OnInit {
     var paid = this.totalEmiHistory.filter((x: { paid: boolean; }) => x.paid==true);
     var totalPaid= paid.map((total: { [x: string]: any; })=>total['fine']).reduce((pre: any, next: any) => pre + next, 0);
     this.service.updateMemberExtra(this.finInfo['file-number'], Math.ceil(totalPaid));
-    console.log('totalExtra', totalPaid);
   }
 
   closePopup() {

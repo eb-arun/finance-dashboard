@@ -77,7 +77,6 @@ export class ViewAllMemberComponent implements OnInit {
     this.allUnsub?.unsubscribe();
     this.allUnsub = this.afs.collection('members').valueChanges().subscribe(res=>{
       this.dataSource.data = res;
-      console.log('main data', res);
       this.listAllMemberFin();
       this.allFileNumber(res);
     })
